@@ -1,18 +1,72 @@
 from dash import Dash, html, dcc, Input, Output, State
 import numpy as np
 import pickle
+import torch
+import torch.nn as nn
 from heapq import nlargest
 
-embedding_dicts = {}
+class Skipgram(nn.Module):
 
-for embedding_type in ['glove', 'skipgram', 'skipgram_negative']:
-    file_path = f'embed_{embedding_type}.pkl'
-    
-    with open(file_path, 'rb') as pickle_file:
-        embedding_dicts[embedding_type] = pickle.load(pickle_file)
+    def __init__(self, vocab_size, emb_size):
+        super(Skipgram,self).__init__()
+        self.embedding_v = nn.Embedding(vocab_size, emb_size)
+        self.embedding_u = nn.Embedding(vocab_size, emb_size)
 
-with open('model_gensim.pkl', 'rb') as model_file:
-    model_gensim = pickle.load(model_file)
+    def forward(self, center_words, target_words, all_vocabs):
+        center_embeds = self.embedding_v(center_words) # [batch_size, 1, emb_size]
+        target_embeds = self.embedding_u(target_words) # [batch_size, 1, emb_size]
+        all_embeds    = self.embedding_u(all_vocabs) #   [batch_size, voc_size, emb_size]
+
+        scores      = target_embeds.bmm(center_embeds.transpose(1, 2)).squeeze(2)
+        #[batch_size, 1, emb_size] @ [batch_size, emb_size, 1] = [batch_size, 1, 1] = [batch_size, 1]
+
+        norm_scores = all_embeds.bmm(center_embeds.transpose(1, 2)).squeeze(2)
+        #[batch_size, voc_size, emb_size] @ [batch_size, emb_size, 1] = [batch_size, voc_size, 1] = [batch_size, voc_size]
+
+        nll = -torch.mean(torch.log(torch.exp(scores)/torch.sum(torch.exp(norm_scores), 1).unsqueeze(1))) # log-softmax
+        # scalar (loss must be scalar)
+
+        return nll # negative log likelihood
+
+class SkipgramNeg(nn.Module):
+
+    def __init__(self, voc_size, emb_size):
+        super(SkipgramNeg, self).__init__()
+        self.embedding_center  = nn.Embedding(voc_size, emb_size)
+        self.embedding_outside = nn.Embedding(voc_size, emb_size)
+        self.logsigmoid        = nn.LogSigmoid()
+
+    def forward(self, center, outside, negative):
+        #center, outside:  (bs, 1)
+        #negative       :  (bs, k)
+
+        center_embed   = self.embedding_center(center) #(bs, 1, emb_size)
+        outside_embed  = self.embedding_outside(outside) #(bs, 1, emb_size)
+        negative_embed = self.embedding_outside(negative) #(bs, k, emb_size)
+
+
+        uovc           = outside_embed.bmm(center_embed.transpose(1, 2)).squeeze(2) #(bs, 1)
+        ukvc           = -negative_embed.bmm(center_embed.transpose(1, 2)).squeeze(2) #(bs, k)
+        ukvc_sum       = torch.sum(ukvc, 1).reshape(-1, 1) #(bs, 1)
+
+        loss           = self.logsigmoid(uovc) + self.logsigmoid(ukvc_sum)
+
+        return -torch.mean(loss)
+
+# Load the negative sampling model
+with open(r"C:\Users\gaurav\OneDrive\Desktop\NLP\A1\app\skipgram_neg_sample_model.pkl", 'rb') as pickle_file:
+    model = pickle.load(pickle_file)
+
+# Load vocab and word2index from the notebook
+with open(r"C:\Users\gaurav\OneDrive\Desktop\NLP\A1\vocab.pkl", 'rb') as f:
+    vocab = pickle.load(f)
+with open(r"C:\Users\gaurav\OneDrive\Desktop\NLP\A1\word2index.pkl", 'rb') as f:
+    word2index = pickle.load(f)
+
+# Create embeddings dict from the model
+embeddings = {}
+for word, idx in word2index.items():
+    embeddings[word] = model.embedding_center.weight[idx].detach().cpu().numpy()
 
 def cosine_similarity(A, B):
     dot_product = np.dot(A, B)
@@ -42,20 +96,6 @@ app.layout = html.Div([
     html.H1("A1 Search Engine", style={'textAlign': 'center', 'font-family': 'Arial, sans-serif', 'margin-top': '20px'}),
     html.Div([
         html.Div([
-            dcc.Dropdown(
-                id='model-selector',
-                options=[
-                    {'label': 'GloVe', 'value': 'glove'},
-                    {'label': 'Skip-gram', 'value': 'skipgram'},
-                    {'label': 'Skip-gram (Negative)', 'value': 'skipgram_negative'},
-                ],
-                placeholder='Select a model...',
-                style={
-                    'width': '70%',
-                    'margin': '0 auto',
-                    'margin-bottom': '20px',
-                }
-            ),
             dcc.Input(
                 id='search-query',
                 type='text',
@@ -106,32 +146,25 @@ app.layout = html.Div([
 ])
 
 # For displaying the search results
-mapping = {
-    'skipgram_negative': 'Skipgram (Negative)',
-    'glove': 'GloVe',
-    'skipgram': 'Skipgram'
-}
+model_name = 'Skip-gram (Negative)'
 
 # Callback to handle search queries
 @app.callback(
     Output('search-results', 'children'),
     [Input('search-button', 'n_clicks')],
-    [State('search-query', 'value'), State('model-selector', 'value')]
+    [State('search-query', 'value')]
 )
-def search(n_clicks, query, model):
+def search(n_clicks, query):
     if n_clicks > 0:
         if not query:
             return html.Div("Please enter a query.", style={'color': 'red'})
-        if not model:
-            return html.Div("Please select a model from the dropdown.", style={'color': 'red'})
         
-        embeddings = embedding_dicts.get(model) # using the chosen model
         results = similarWords(query, embeddings)
         return html.Div([
-            html.H4(f"Results for '{query}' using model '{mapping[model]}':"),
+            html.H4(f"Results for '{query}' using model '{model_name}':"),
             html.Ul([html.Li(result) for result in results], style={'list-style-type': 'none'})
         ])
-    return html.Div("Enter a query and select a model to see results.", style={'color': 'gray'})
+    return html.Div("Enter a query to see results.", style={'color': 'gray'})
 
 # Running the app
 if __name__ == '__main__':
