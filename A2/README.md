@@ -7,3 +7,7 @@
 * Go inside A2/code folder
 * Run python app.py
 * Go to http://127.0.0.1:8050/ on the browser of your choice
+
+# Demo
+
+![alt text](ezgif-6c22200b67fc4703.gif)
