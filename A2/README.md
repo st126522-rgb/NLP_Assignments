@@ -3,11 +3,16 @@
 * First run the jupyter notebook to get the models
 * Use those model from app.py to use in the UI
 
+# Model training
+* Present in lstm_lm.ipynb
+
 # To run the app
 * Go inside A2/code folder
 * Run python app.py
 * Go to http://127.0.0.1:8050/ on the browser of your choice
 
+
+
 # Demo
 
-![alt text](ezgif-6c22200b67fc4703.gif)
+![alt text](demo.gif)
