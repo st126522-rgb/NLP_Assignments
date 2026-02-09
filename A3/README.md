@@ -34,7 +34,7 @@ We utilized the `CohleM/english-to-nepali` dataset. To optimize for training tim
 
 The following table contrasts the two attention mechanisms implemented in this project.
 
-| Feature | General Attention (Luong) | Additive Attention (Bahdanau) |
+| Feature | General Attention  | Additive Attention  |
 | :--- | :--- | :--- |
 | **Equation** | $$score(s_t, h_i) = s_t^T W_a h_i$$|$$score(s_t, h_i) = v_a^T \tanh(W_a [s_t; h_i])$$ |
 | **Mechanism** | **Multiplicative:** Calculates alignment using a dot product between the decoder state and encoder states (via a weight matrix). | **Concatenative:** Concatenates decoder and encoder states, passing them through a feed-forward neural network (Linear $\to$ Tanh $\to$ Linear). |
