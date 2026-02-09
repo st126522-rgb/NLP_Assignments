@@ -11,7 +11,7 @@ The project includes a web application (built with Dash) that serves the trained
 
 ---
 
-## 📊 Dataset & Preprocessing
+##  Dataset & Preprocessing
 
 We utilized the `CohleM/english-to-nepali` dataset. To optimize for training time and memory constraints, a subset of the data was used for this experiment.
 
@@ -30,7 +30,7 @@ We utilized the `CohleM/english-to-nepali` dataset. To optimize for training tim
 
 ---
 
-## 🧠 Model Comparison: General vs. Additive Attention
+##  Model Comparison: General vs. Additive Attention
 
 The following table contrasts the two attention mechanisms implemented in this project.
 
@@ -44,7 +44,7 @@ The following table contrasts the two attention mechanisms implemented in this p
 
 ---
 
-## 📈 Evaluation & Findings
+##  Evaluation & Findings
 
 The models were trained for 5 epochs. We tracked **Cross Entropy Loss** and **Perplexity (PPL)** on the validation set.
 
@@ -76,7 +76,7 @@ The models were trained for 5 epochs. We tracked **Cross Entropy Loss** and **Pe
 
 ---
 
-## 🛠️ Project Structure
+## Project Structure
 
 * `t1.ipynb`: Main notebook containing data loading, model definition, training loop, and evaluation.
 * `app.py`: Standalone Dash application for inference.
