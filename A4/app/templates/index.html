@@ -1,0 +1,79 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>SBERT NLI Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 16px; }
+    textarea { width: 100%; min-height: 90px; padding: 10px; font-size: 14px; }
+    button { padding: 10px 16px; font-size: 14px; cursor: pointer; margin-top: 10px; }
+    .row { margin-bottom: 16px; }
+    .result { margin-top: 18px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
+    .label { font-size: 18px; font-weight: bold; }
+    .probs { margin-top: 8px; font-family: monospace; white-space: pre-wrap; }
+    .err { color: #b00020; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Text Similarity / NLI Demo (Entailment · Neutral · Contradiction)</h2>
+
+  <div class="row">
+    <label><b>Premise</b></label>
+    <textarea id="premise" placeholder="e.g., A man is playing a guitar on stage."></textarea>
+  </div>
+
+  <div class="row">
+    <label><b>Hypothesis</b></label>
+    <textarea id="hypothesis" placeholder="e.g., The man is performing music."></textarea>
+  </div>
+
+  <button onclick="predict()">Predict</button>
+  <div id="err" class="err"></div>
+
+  <div id="result" class="result" style="display:none;">
+    <div class="label" id="label"></div>
+    <div class="probs" id="probs"></div>
+  </div>
+
+<script>
+async function predict() {
+  const premise = document.getElementById("premise").value;
+  const hypothesis = document.getElementById("hypothesis").value;
+
+  document.getElementById("err").textContent = "";
+  document.getElementById("result").style.display = "none";
+
+  try {
+    const res = await fetch("/predict", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({premise, hypothesis})
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      document.getElementById("err").textContent = data.error || "Request failed.";
+      return;
+    }
+
+    document.getElementById("label").textContent = "Prediction: " + data.label;
+
+    const probs = data.probs;
+    const lines = [
+      `entailment:     ${probs[0].toFixed(4)}`,
+      `neutral:        ${probs[1].toFixed(4)}`,
+      `contradiction:  ${probs[2].toFixed(4)}`
+    ];
+    document.getElementById("probs").textContent = lines.join("\n");
+
+    document.getElementById("result").style.display = "block";
+
+  } catch (e) {
+    document.getElementById("err").textContent = "Error: " + e;
+  }
+}
+</script>
+
+</body>
+</html>

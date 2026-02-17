@@ -24,7 +24,7 @@ We utilized the `CohleM/english-to-nepali` dataset. To optimize for training tim
 | **Nepali Vocabulary** | 31,091 tokens |
 
 **Preprocessing Steps:**
-1.  **Tokenization**: `spaCy` for English, white-space splitting for Nepali.
+1.  **Tokenization**: `spaCy` for English, white-space splitting for Nepali. Not good enough tokenizer found due to language complexity.
 2.  **Vocab Building**: Minimum frequency threshold of 2.
 3.  **Special Tokens**: `<sos>`, `<eos>`, `<unk>`, `<pad>` handling.
 

@@ -1,0 +1,19 @@
+{
+  "vocab_size": 30000,
+  "max_len": 128,
+  "hidden_size": 256,
+  "num_heads": 4,
+  "num_layers": 4,
+  "intermediate_size": 1024,
+  "dropout": 0.1,
+  "layer_norm_eps": 1e-12,
+  "special_ids": {
+    "PAD_ID": 0,
+    "UNK_ID": 1,
+    "CLS_ID": 2,
+    "SEP_ID": 3,
+    "MASK_ID": 4
+  },
+  "tokenizer_dir": "tokenizer",
+  "trained_on": "wikimedia/wikipedia subset (~100k) exported to artifacts/corpus_100k.txt"
+}
