@@ -4,7 +4,7 @@
 *.pkl
 
 # Large corpora
-*.txt
+*.txt 
 
 # Artifacts
 artifacts/
