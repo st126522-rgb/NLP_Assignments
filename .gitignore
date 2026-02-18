@@ -1,3 +1,11 @@
+# Models
 *.pt
-*.mp4
 *.pth
+*.pkl
+
+# Large corpora
+*.txt
+
+# Artifacts
+artifacts/
+models/
