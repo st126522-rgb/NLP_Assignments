@@ -1,0 +1,122 @@
+[
+  {
+    "question": "What is the focus of Chapter 2 in Jurafsky & Martin?",
+    "ground_truth_answer": "It introduces n-gram language models and evaluates their probability estimations and smoothing.",
+    "naive_rag_answer": "Words grow without end leads to a problem for any computational model. No matter how big our vocabulary, we will never have a vocabulary that captures all the possible words that might occur! That means that our computational model will constantly see unknown words: words that it has never seen before. This is a huge problem for machine learning models. Because of these two problems (first, that many languages don’t have ortho- graphic words, and defining them post-hoc is challenging and second, that the num- ber of words grows without bound), language models and other NLP models don’t 2.2 • MORPHEMES: PARTS OF WORDS tend to use words as their unit of processing. Instead, they use smaller units called subwords that can be recombined to model new words that our model has never seen before. To think about what is a word, we first need to talk about units that are smaller than words; morphemes and characters. A morphology morpheme is a minimal meaning-bearing unit in a language. So, for example, the morpheme word fox consists of one morpheme (the",
+    "contextual_retrieval_answer": "a vocabulary with 7 tokens A, B, C, D, E, AB, CAB, and the corpus has length 5. AB"
+  },
+  {
+    "question": "Define a bigram model in language modeling.",
+    "ground_truth_answer": "A bigram model predicts each word conditioned only on the previous word, P(w_i|w_{i-1}).",
+    "naive_rag_answer": "byte- pair encoding",
+    "contextual_retrieval_answer": "Byte pair encoding is suboptimal for language model pretraining"
+  },
+  {
+    "question": "What problem does data sparsity create for n-grams?",
+    "ground_truth_answer": "Many n-grams never occur in training data, giving zero probability to valid sentences.",
+    "naive_rag_answer": "unanswerable",
+    "contextual_retrieval_answer": "unanswerable"
+  },
+  {
+    "question": "What is maximum likelihood estimation for n-gram probabilities?",
+    "ground_truth_answer": "Count-based ratio: P(w_i|context) = count(context,w_i)/count(context).",
+    "naive_rag_answer": "The Viterbi algorithm is a probabilistic extension of minimum edit distance. Instead of computing the “minimum edit distance” between two strings, Viterbi computes the “maximum probability alignment” of one string with another.",
+    "contextual_retrieval_answer": "The Viterbi algorithm is a probabilistic extension of minimum edit distance. Instead of computing the “minimum edit distance” between two strings, Viterbi computes the “maximum probability alignment” of one string with another. We discussed the linguistic levels of words, morphemes, and characters, introduced Unicode code points and the UTF-8 encoding, introduced the BPE algorithm for tokenization, and introduced the regular expression and the minimum edit distance algorithm for comparing strings. Here’s a summary of the main points we covered about these ideas: • Words and morphemes are useful units of representation, but difficult to define formally. • Unicode is a system for representing characters in the many scripts used to write the languages of the world. • Each character is represented internally with a unique id called a code point, and can be encoded in a file via encoding methods like UTF-8, which is a variable-length encoding. • Byte-Pair Encoding or BPE is the standard way to induce tokens in a data-driven way. It is the first step in most large language models"
+  },
+  {
+    "question": "Explain Add-1 (Laplace) smoothing.",
+    "ground_truth_answer": "It adds one to all n-gram counts and normalizes so no event has zero probability.",
+    "naive_rag_answer": "Add-in-assignments",
+    "contextual_retrieval_answer": "Add-1 (Laplace) smoothing"
+  },
+  {
+    "question": "What is linear interpolation?",
+    "ground_truth_answer": "Combining unigram, bigram, trigram probabilities with weights to smooth estimates.",
+    "naive_rag_answer": "combining solutions to various subproblems",
+    "contextual_retrieval_answer": "D[i, j] = min   D[i1, j]+del-cost(source[i]) D[i, j 1]+ins-cost(target[j]) D[i1, j 1]+sub-cost(source[i],target[j])"
+  },
+  {
+    "question": "What is backoff in smoothing?",
+    "ground_truth_answer": "Use higher-order model when available, else back off to lower-order distributions.",
+    "naive_rag_answer": "re-prefix (that might appear in perhaps unseen combinations like revisit or rearrange), or the morpheme new without an initial space (hence word-internal) that might appear at the start of sentences or in words unseen in training like anew",
+    "contextual_retrieval_answer": "a morphology morpheme"
+  },
+  {
+    "question": "What are perplexity and cross-entropy?",
+    "ground_truth_answer": "Perplexity measures model uncertainty; cross-entropy is average log-loss (exponential relation).",
+    "naive_rag_answer": "e, n, r, s, t, w, ne, new, r, re, new, re, new, r, re, new, re, new, r, re, new, re",
+    "contextual_retrieval_answer": "a word-initial prefix re-: corpus vocabulary new , e, n, r, s, t, w, ne, new, r, re, new, r, re, new, r, re, new, r, re, new, re"
+  },
+  {
+    "question": "How does the chapter describe the chain rule for language models?",
+    "ground_truth_answer": "It decomposes sentence probability to product of conditional word probabilities.",
+    "naive_rag_answer": "Byte pair encoding is suboptimal for language model pretraining",
+    "contextual_retrieval_answer": "a morpheme that acts clitic syntactically like a word but is reduced in form and attached (phonologically and sometimes orthographically) to another word"
+  },
+  {
+    "question": "What is the purpose of held-out data in smoothing?",
+    "ground_truth_answer": "To tune interpolation weights or discount parameters without overfitting training data.",
+    "naive_rag_answer": "search for a string in a string",
+    "contextual_retrieval_answer": "search for a string in a string"
+  },
+  {
+    "question": "What is a language model's n-gram order effect?",
+    "ground_truth_answer": "Higher order captures more context but requires more data and can overfit without smoothing.",
+    "naive_rag_answer": "tr -sc 'A-Za-z' 'n'  sh.txt | tr -sc 'A-Za-z' 'n'  sh.txt | tr -sc 'A-Za-z' 'n'  sh.txt | tr -sc 'A-Za-z' 'n'  sh.txt | tr -sc 'A-Za-z' 'n'  sh.txt | tr -sc 'A-Za-z' 'n'  sh.txt | tr -sc 'A-Za-z' 'n'  sh.txt | tr -sc 'A-Za-z' 'n'  sh.txt | tr -sc 'A-Za-z' 'n'  sh",
+    "contextual_retrieval_answer": "a morphology morpheme"
+  },
+  {
+    "question": "What is the Katz backoff formula?",
+    "ground_truth_answer": "Discount observed counts and redistribute probability mass to lower-order n-grams via backoff weights.",
+    "naive_rag_answer": "D[i, j] = min",
+    "contextual_retrieval_answer": "d for deletion, s for substitution, i for insertion"
+  },
+  {
+    "question": "Why do we normalize probabilities in smoothing?",
+    "ground_truth_answer": "To ensure all next-word probabilities sum to one per context.",
+    "naive_rag_answer": "Using a backtrace, starting at the 8 in the lower-right corner and following the arrows back. The sequence of bold cells represents one possible minimum cost alignment between the two strings, again using Levenshtein distance with cost of 1 for insertions or deletions, 2 for substitutions.",
+    "contextual_retrieval_answer": "The fact that words grow without end leads to a problem for any computational model. No matter how big our vocabulary, we will never have a vocabulary that captures all the possible words that might occur! That means that our computational model will constantly see unknown words: words that it has never seen before. This is a huge problem for machine learning models. Because of these two problems (first, that many languages don’t have orthographic words, and defining them post-hoc is challenging and second, that the num- ber of words grows without bound), language models and other NLP models don’t 2.2 • Word tokenization and other text normalization Chunk 34: This chunk from Jurafsky NLP Book Chapter 2 discusses: full we compute an alignment (minimum edit path) by using a backtrace, starting at the 8 in the lower-right corner and following the arrows back. full we compute an alignment (minimum edit path) by using a backtrace, starting at the 8 in the lower-right corner and following the arrows back. full we compute an alignment (minimum edit path) by using a backtrace, starting at the"
+  },
+  {
+    "question": "What is deleted interpolation?",
+    "ground_truth_answer": "Estimating interpolation weights by optimizing on held-out data with data partitions.",
+    "naive_rag_answer": "d for deletion, s for substitution, i for insertion",
+    "contextual_retrieval_answer": "D[i, j] = min"
+  },
+  {
+    "question": "What is the main drawback of Add-1 smoothing for large vocabularies?",
+    "ground_truth_answer": "It over-inflates rare events and distorts probabilities because adding one is too large.",
+    "naive_rag_answer": "The result is a large set of tokens that can be more efficient. For example the SuperBPE (Liu et al., 2025) and BoundlessBPE (Schmidt SuperBPE BoundlessBPE et al., 2025) algorithms first induce regular BPE subword tokens by enforcing preto- kenization. They then run a second stage of BPE allowing merges across spaces and punctuation. The result is a large set of tokens that can be more efficient. For example the SuperBPE (Liu et al., 2025) and BoundlessBPE (Schmidt SuperBPE BoundlessBPE et al., 2025) algorithms first induce regular BPE subword tokens by enforcing preto- kenization. They then run a second stage of BPE allowing merges across spaces and punctuation. The result is a large set of tokens that can be more efficient. For example let’s look at a Spanish sentence from a recipe for plantains, together with an English translation. The English has",
+    "contextual_retrieval_answer": "It is especially important when applying NLP algorithms to tasks of detecting structure, like parse structure. Sentence segmentation is a step that is can be optionally applied sentence segmentation in text processing. It is especially important when applying NLP algorithms to tasks of detecting structure, like parse structure. Sentence segmentation depends on the language and the genre."
+  },
+  {
+    "question": "How are smoothing methods evaluated?",
+    "ground_truth_answer": "By computing held-out perplexity or cross-entropy on test data.",
+    "naive_rag_answer": "MIN-EDIT-DISTANCE(source, target) returns min-distance nLENGTH(source) mLENGTH(target) Create a distance matrix D[n+1,m+1] # Initialization: the zeroth row and column is the distance from the empty string D[0,0] = 0 for each row i from 1 to n do D[i,0]D[i-1,0] + del-cost(source[i]) for each column j from 1 to m do D[0,j]D[0,j-1] + ins-cost(target[j]) # Recurrence relation: for each row i from 1 to n do for each column j from 1 to m do D[i,j]MIN( D[i1, j] + del-cost(source[i],target[j]), D[i, j1] + sub-cost(source[i],target[j]), D[i, j1] + ins-cost(target[j]) # Termination return",
+    "contextual_retrieval_answer": "The BPE training algorithm first counts all pairs of adjacent symbols: the most frequent is the pair ne because it occurs in new (frequency of 2) and renew (fre- quency of 2) for a total of 4 occurrences. We then merge these symbols, treating ne as one symbol, and count again: corpus vocabulary new , e, n, r, s, t, w, ne, r, s, t, w, ne, r, s, t, w, ne, r, re re"
+  },
+  {
+    "question": "What tradeoff does smoothing control?",
+    "ground_truth_answer": "Bias vs variance in n-gram probability estimates.",
+    "naive_rag_answer": "rs|'t|'re|'ve|'m|'ll|'d| ?pL+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+| ?pN+|",
+    "contextual_retrieval_answer": "D[i, j] = min    D[i1, j]+del-cost(source[i]) D[i, j 1]+ins-cost(target[j]) D[i, j 1]+sub-cost(source[i],target[j])"
+  },
+  {
+    "question": "Why are unigram counts falling short for language modeling?",
+    "ground_truth_answer": "They ignore context, so cannot model word dependencies.",
+    "naive_rag_answer": "Byte pair encoding is suboptimal for language model pretraining. EMNLP. Chen, X., Z. Shi, X. Qiu, and X. Huang. 2017. Adversar- ial multi-criteria learning for Chinese word segmentation. EMNLP. Chen, X., Z. Shi, X. Qiu, and X. Huang. 2017. Adversar- ial multi-criteria learning for Chinese word segmentation. EMNLP. Chen, X., Z. Shi, X. Qiu, and X. Huang. 2017. Adversar- ial multi-criteria learning for Chinese word segmentation. EMNLP. Chen, X., Z. Shi, X. Qiu, and X. Huang. 2017. Adversar- ial multi-criteria learning for Chinese word segmentation. EMNLP. Chen, X., Z. Shi, X. Qiu, and X. Huang. 2017. Adversar- ial multi-criteria learning for Chinese word segmentation. EMNLP",
+    "contextual_retrieval_answer": "The fact that words grow without end leads to a problem for any computational model. No matter how big our vocabulary, we will never have a vocabulary that captures all the possible words that might occur! That means that our computational model will constantly see unknown words: words that it has never seen before. This is a huge problem for machine learning models. Because of these two problems (first, that many languages don’t have ortho- graphic words, and defining them post-hoc is challenging and second, that the num- ber of words grows without bound), language models and other NLP models don’t 2.2 • MORPHEMES: PARTS OF WORDS tend to use words as their unit of processing. Instead, they use smaller units called subwords that can be recombined to model new words that our model has never seen before. To think about defining subwords, we first need to talk about units that are smaller than words; morphemes and characters."
+  },
+  {
+    "question": "What is absolute discounting concept?",
+    "ground_truth_answer": "Subtract a constant from non-zero n-gram counts and allocate mass to lower-order distributions.",
+    "naive_rag_answer": "D[i] = min    D[i1, j]+del-cost(source[i]) D[i, j 1]+ins-cost(target[j]) D[i1, j 1]+sub-cost(source[i],target[j])",
+    "contextual_retrieval_answer": "Counters * + ?  Sequences and anchors the my end$ Disjunction | Thus, because counters have a higher precedence than sequences, r\"the*\" matches theeeee but not thethe. Because sequences have a higher prece- dence than disjunction, r\"the|any\" matches the or any but not thany or theny. Patterns can be ambiguous in another way. Consider the expression r\"[a-z]*\" when matching against the text once upon a time. Since r\"[a-z]*\" matches zero or more letters, this expression could match nothing, or just the first letter o, on, onc, or once. In these cases regular expressions always match the largest string they can; we say that patterns are greedy, expanding to cover as much of a string as they can. greedy There are, however, ways to enforce non-greedy matching, using another mean- non-greedy ing of the ? qualifier. The operator *? is a Kleene star that matches as little text as *"
+  },
+  {
+    "question": "How does chapter 2 categorize language modeling tasks?",
+    "ground_truth_answer": "As predicting next word probabilities and scoring sentences for generation or recognition.",
+    "naive_rag_answer": "WORDS AND TOKENS Language variety: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus in? Speaker demographics: What language (including dialect/region) was the corpus",
+    "contextual_retrieval_answer": "Words and Tokens Solorio, T., E. Blair, S. Maharjan, S. Bethard, M. Diab, M. Ghoneim, A. Hawwari, F. AlGhamdi, J. Hirschberg, A. Chang, and P. Fung. 2018. Ethnologue: Lan- guages of the world, 21st edition. SIL International. Chapter 2 • Words and Tokens Solorio, T., E. Blair, S. Maharjan, S. Bethard, M. Diab, M. Ghoneim, A. Hawwari, F. AlGhamdi, J. Hirschberg, A. Chang, and P. Fung. 2018. Ethnologue: Lan- guages of the world, 21st edition. SIL International. Chapter 2 • Words and Tokens Solorio, T., E. Blair, S. Maharjan, S. Bethard, M. Diab, M. Ghoneim, A. Hawwari, F. AlGhamdi, and I. Sut"
+  }
+]
